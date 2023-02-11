@@ -9,24 +9,24 @@ import Signup from './page/Signup';
 import Login from './page/Login';
 
 
-
 function App() {
   return (
     <>
-   
+ 
       <Router>
         <div>
           <section>
             <Routes>
-            <Route path='/home' element={<Home/>}/>
               <Route path='/signup' element={<Signup/>}/>
               <Route path='/' element={<Login/>}/>
-         
-
+              
+            <Route path='/home' element={<Home/>}/>
+              
             </Routes>
           </section>
         </div>
       </Router>
+   
     </>
   );
 }

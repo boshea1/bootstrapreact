@@ -1,7 +1,9 @@
 import React from 'react';
-import {  signOut } from "firebase/auth";
+import {  signOut,onAuthStateChanged } from "firebase/auth";
 import {auth} from '../firebase';
 import { useNavigate} from 'react-router-dom';
+
+import { useEffect, useState } from 'react';
  
 import NavComponent from '../components/NavComponent'
 import Heroslider from '../components/HeroSlider'
@@ -18,8 +20,19 @@ const Home = () => {
         // An error happened.
         });
     }
-    var user = auth.currentUser
+    // var user = auth.currentUser
+    const [user, setUser] = useState({});
     console.log('user',user)
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+          console.log(currentUser);
+          setUser(currentUser);
+        });
+        return () => {
+          unsubscribe();
+        };
+      }, []);
     
    
     return(
