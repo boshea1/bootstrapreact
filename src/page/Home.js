@@ -1,38 +1,36 @@
 import React from 'react';
-import {  signOut,onAuthStateChanged } from "firebase/auth";
-import {auth} from '../firebase';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { UserAuth } from '../context/AuthContext';
 
-import { useEffect, useState } from 'react';
- 
 import NavComponent from '../components/NavComponent'
 import Heroslider from '../components/HeroSlider'
 
 const Home = () => {
-    const navigate = useNavigate();
- 
-    const handleLogout = () => {               
-        signOut(auth).then(() => {
-        // Sign-out successful.
-            navigate("/");
-            console.log("Signed out successfully")
-        }).catch((error) => {
-        // An error happened.
-        });
-    }
-    // var user = auth.currentUser
-    const [user, setUser] = useState({});
-    console.log('user',user)
+    const { user, logout } = UserAuth();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-          console.log(currentUser);
-          setUser(currentUser);
-        });
-        return () => {
-          unsubscribe();
-        };
-      }, []);
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+      console.log('You are logged out')
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+   // const handleLogout = () => {               
+    //     signOut(auth).then(() => {
+    //     // Sign-out successful.
+    //         navigate("/");
+    //         console.log("Signed out successfully")
+    //     }).catch((error) => {
+    //     // An error happened.
+    //     });
+
+    // const navigate = useNavigate();
+ 
+
     
    
     return(
